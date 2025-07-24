@@ -1,0 +1,285 @@
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| 7316banking        |
+| ass2               |
+| banking            |
+| information_schema |
+| movie              |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+8 rows in set (0.00 sec)
+
+mysql> show tables;
++-------------------+
+| Tables_in_ass2    |
++-------------------+
+| company           |
+| employee          |
+| infosys_employees |
+| manages           |
+| works             |
++-------------------+
+5 rows in set (0.00 sec)
+
+mysql> describe company;
++--------------+--------------+------+-----+---------+-------+
+| Field        | Type         | Null | Key | Default | Extra |
++--------------+--------------+------+-----+---------+-------+
+| company_name | varchar(100) | NO   | PRI | NULL    |       |
+| city         | varchar(50)  | YES  |     | NULL    |       |
++--------------+--------------+------+-----+---------+-------+
+2 rows in set (0.01 sec)
+
+mysql> describe employee;
++--------+--------------+------+-----+---------+-------+
+| Field  | Type         | Null | Key | Default | Extra |
++--------+--------------+------+-----+---------+-------+
+| eid    | int          | NO   | PRI | NULL    |       |
+| name   | varchar(100) | YES  |     | NULL    |       |
+| street | varchar(100) | YES  |     | NULL    |       |
+| city   | varchar(50)  | YES  |     | NULL    |       |
++--------+--------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> describe manages;
++-----------+--------------+------+-----+---------+-------+
+| Field     | Type         | Null | Key | Default | Extra |
++-----------+--------------+------+-----+---------+-------+
+| eid       | int          | NO   | PRI | NULL    |       |
+| dept_name | varchar(100) | YES  |     | NULL    |       |
++-----------+--------------+------+-----+---------+-------+
+2 rows in set (0.01 sec)
+
+mysql> describe works;
++--------------+---------------+------+-----+---------+-------+
+| Field        | Type          | Null | Key | Default | Extra |
++--------------+---------------+------+-----+---------+-------+
+| eid          | int           | NO   | PRI | NULL    |       |
+| company_name | varchar(100)  | NO   | PRI | NULL    |       |
+| salary       | decimal(10,2) | YES  |     | NULL    |       |
++--------------+---------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> describe infosys_employees;
++--------+---------------+------+-----+---------+-------+
+| Field  | Type          | Null | Key | Default | Extra |
++--------+---------------+------+-----+---------+-------+
+| eid    | int           | NO   |     | NULL    |       |
+| name   | varchar(100)  | YES  |     | NULL    |       |
+| city   | varchar(50)   | YES  |     | NULL    |       |
+| salary | decimal(10,2) | YES  |     | NULL    |       |
++--------+---------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> select * from works;
++-----+---------------------+----------+
+| eid | company_name        | salary   |
++-----+---------------------+----------+
+|   1 | Tata Motors         | 45000.00 |
+|   2 | Infosys             | 52000.00 |
+|   3 | Wipro               | 48000.00 |
+|   4 | Reliance Industries | 55000.00 |
+|   5 | HCL Technologies    | 47000.00 |
+|   6 | Tech Mahindra       | 50000.00 |
+|   7 | Bharti Airtel       | 53000.00 |
+|   8 | L&T Infotech        | 49000.00 |
+|   9 | Adani Group         | 51000.00 |
+|  10 | Indian Oil          | 52000.00 |
+|  11 | Infosys             | 60000.00 |
+|  12 | Wipro               | 62000.00 |
+|  13 | Tata Motors         | 58000.00 |
+|  14 | Reliance Industries | 61000.00 |
+|  15 | HCL Technologies    | 59000.00 |
++-----+---------------------+----------+
+15 rows in set (0.00 sec)
+
+mysql> select * from employee;
++-----+--------+---------------+------------+
+| eid | name   | street        | city       |
++-----+--------+---------------+------------+
+|   1 | Amit   | MG Road       | Mumbai     |
+|   2 | Priya  | Brigade Road  | Bangalore  |
+|   3 | Raj    | Park Street   | Kolkata    |
+|   4 | Anita  | Anna Salai    | Chennai    |
+|   5 | Vijay  | Banjara Hills | Hyderabad  |
+|   6 | Sneha  | Laxmi Road    | Pune       |
+|   7 | Ravi   | Sector 17     | Chandigarh |
+|   8 | Pooja  | Ashok Nagar   | Delhi      |
+|   9 | Karan  | Civil Lines   | Lucknow    |
+|  10 | Meena  | Harmu Road    | Ranchi     |
+|  11 | Arjun  | Mali Colony   | Jaipur     |
+|  12 | Neha   | VIP Road      | Raipur     |
+|  13 | Rakesh | Kankarbagh    | Patna      |
+|  14 | Divya  | Palasia       | Indore     |
+|  15 | Manish | Salt Lake     | Kolkata    |
++-----+--------+---------------+------------+
+15 rows in set (0.00 sec)
+
+mysql> select * from company;
++---------------------+-----------+
+| company_name        | city      |
++---------------------+-----------+
+| Adani Group         | Ahmedabad |
+| Bharti Airtel       | Delhi     |
+| HCL Technologies    | Noida     |
+| Indian Oil          | Delhi     |
+| Infosys             | Bangalore |
+| L&T Infotech        | Chennai   |
+| Reliance Industries | Mumbai    |
+| Tata Motors         | Mumbai    |
+| Tech Mahindra       | Pune      |
+| Wipro               | Bangalore |
++---------------------+-----------+
+10 rows in set (0.00 sec)
+
+mysql> select * from manages;
++-----+------------------+
+| eid | dept_name        |
++-----+------------------+
+|   1 | HR               |
+|   3 | Finance          |
+|   5 | IT               |
+|   7 | Operations       |
+|   9 | Marketing        |
+|  10 | legal            |
+|  11 | Sales            |
+|  13 | Customer Support |
+|  15 | Logistics        |
++-----+------------------+
+9 rows in set (0.00 sec)
+
+mysql> select * from infosys_employees;
++-----+-------+-----------+----------+
+| eid | name  | city      | salary   |
++-----+-------+-----------+----------+
+|   2 | Priya | Bangalore | 52000.00 |
+|  11 | Arjun | Jaipur    | 60000.00 |
++-----+-------+-----------+----------+
+2 rows in set (0.00 sec)
+
+mysql> drop view infosys_employees;
+Query OK, 0 rows affected (0.15 sec)
+
+mysql> CREATE VIEW infosys_employees AS
+    -> SELECT e.eid, e.name, e.city, w.salary
+    -> FROM employee e
+    -> JOIN works w ON e.eid = w.eid
+    -> WHERE w.company_name = 'Infosys' AND w.salary > 55000;
+Query OK, 0 rows affected (0.13 sec)
+
+mysql> select * from infosys_employees;
++-----+-------+--------+----------+
+| eid | name  | city   | salary   |
++-----+-------+--------+----------+
+|  11 | Arjun | Jaipur | 60000.00 |
++-----+-------+--------+----------+
+1 row in set (0.00 sec)
+
+mysql> no tee;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'no tee' at line 1
+mysql> notee;
+mysql> rename table infosys_employees to info_sal_above;
+Query OK, 0 rows affected (0.21 sec)
+
+mysql> select * from info_sal_above;
++-----+-------+--------+----------+
+| eid | name  | city   | salary   |
++-----+-------+--------+----------+
+|  11 | Arjun | Jaipur | 60000.00 |
++-----+-------+--------+----------+
+1 row in set (0.01 sec)
+
+mysql> INSERT INTO works (eid, company_name, salary)
+    -> VALUES (16, 'Infosys', 55000.00);
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`ass2`.`works`, CONSTRAINT `works_ibfk_1` FOREIGN KEY (`eid`) REFERENCES `employee` (`eid`))
+mysql> ^C
+mysql> notee;
+mysql> select * from info_sal_above;
++-----+-------+--------+----------+
+| eid | name  | city   | salary   |
++-----+-------+--------+----------+
+|  11 | Arjun | Jaipur | 60000.00 |
++-----+-------+--------+----------+
+1 row in set (0.04 sec)
+
+mysql> create index idx_name on employees(name);
+ERROR 1146 (42S02): Table 'ass2.employees' doesn't exist
+mysql> create index idx_name on employee(name);
+Query OK, 0 rows affected, 1 warning (0.59 sec)
+Records: 0  Duplicates: 0  Warnings: 1
+
+mysql> alter table employee add index(name);
+Query OK, 0 rows affected, 1 warning (0.46 sec)
+Records: 0  Duplicates: 0  Warnings: 1
+
+mysql> show index from employee;
++----------+------------+------------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| Table    | Non_unique | Key_name   | Seq_in_index | Column_name | Collation | Cardinality | Sub_part | Packed | Null | Index_type | Comment | Index_comment | Visible | Expression |
++----------+------------+------------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| employee |          0 | PRIMARY    |            1 | eid         | A         |          15 |     NULL |   NULL |      | BTREE      |         |               | YES     | NULL       |
+| employee |          1 | index_name |            1 | name        | A         |          15 |     NULL |   NULL | YES  | BTREE      |         |               | YES     | NULL       |
+| employee |          1 | idx_name   |            1 | name        | A         |          15 |     NULL |   NULL | YES  | BTREE      |         |               | YES     | NULL       |
+| employee |          1 | name       |            1 | name        | A         |          15 |     NULL |   NULL | YES  | BTREE      |         |               | YES     | NULL       |
++----------+------------+------------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+4 rows in set (0.21 sec)
+
+m
+
+mysql> notee;
+mysql> notee
+mysql> alter table company 
+    -> add column comp_id int not null auto_increment primary key;
+ERROR 1068 (42000): Multiple primary key defined
+mysql> ALTER TABLE company DROP PRIMARY KEY;
+ERROR 1553 (HY000): Cannot drop index 'PRIMARY': needed in a foreign key constraint
+mysql> notee
+mysql> CREATE TABLE employee_details (
+    ->   emp_id INT NOT NULL AUTO_INCREMENT,
+    ->   position VARCHAR(100) NOT NULL,
+    ->   salary DECIMAL(10, 2) NOT NULL,
+    ->   PRIMARY KEY (emp_id)
+    -> );
+Query OK, 0 rows affected (0.63 sec)
+
+mysql> INSERT INTO employee_details (position, salary) VALUES
+    -> ('Manager', 90000.00),
+    -> ('Developer', 75000.00),
+    -> ('Analyst', 60000.00),
+    -> ('HR Specialist', 58000.00),
+    -> ('QA Engineer', 62000.00),
+    -> ('Technical Lead', 95000.00);
+Query OK, 6 rows affected (0.15 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+
+mysql> show tables;
++------------------+
+| Tables_in_ass2   |
++------------------+
+| company          |
+| employee         |
+| employee_details |
+| info_sal_above   |
+| manages          |
+| works            |
++------------------+
+6 rows in set (0.00 sec)
+
+mysql> ^C
+mysql> select * from employee_details;
++--------+----------------+----------+
+| emp_id | position       | salary   |
++--------+----------------+----------+
+|      1 | Manager        | 90000.00 |
+|      2 | Developer      | 75000.00 |
+|      3 | Analyst        | 60000.00 |
+|      4 | HR Specialist  | 58000.00 |
+|      5 | QA Engineer    | 62000.00 |
+|      6 | Technical Lead | 95000.00 |
++--------+----------------+----------+
+6 rows in set (0.00 sec)
+
+mysql> notee;

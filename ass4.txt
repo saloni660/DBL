@@ -1,0 +1,188 @@
+mysql> create database assg4;
+Query OK, 1 row affected (0.19 sec)
+
+mysql> use assg4;
+Database changed
+mysql> create table borrower(
+    -> roll int primary key,
+    -> Name varchar(20),
+    -> DateofIssue date,
+    -> NameofBook varchar(20),
+    -> Status char(1));
+Query OK, 0 rows affected (1.21 sec)
+
+mysql> create table fine( roll int, Date date, Amount decimal(10,2), foreign key(roll) references borrower(roll) );
+Query OK, 0 rows affected (0.77 sec)
+
+
+mysql> delimiter //
+mysql> create procedure ReturnBook(
+    -> in p_rollno int,
+    -> in p_bookname varchar(100))
+    -> begin
+    -> declare v_dateofissue date;
+    -> declare v_status char(1);
+    -> declare v_days int;
+    -> declare v_fine_amt int default 0;
+    -> declare continue handler for not found
+    -> begin
+    -> select 'Record not found or already returned' as message;
+    -> end;
+    -> 
+    -> select DateofIssue,Status
+    -> into v_dateofissue,v_status
+    -> from borrower
+    -> where roll=p_rollno and NameofBook=p_bookname;
+    -> 
+    -> if v_status='I' then
+    -> set v_days=DATEDIFF(CURDATE(),v_dateofissue);
+    -> 
+    -> if v_days>30 then
+    -> set v_fine_amt=25+(v_days-30)*50;
+    -> elseif v_days>15 then
+    -> set v_fine_amt=(v_days-15)*5;
+    -> end if;
+    -> 
+    -> update borrower
+    -> set Status='R'
+    -> where roll=p_rollno and NameofBook=p_bookname;
+    -> 
+    -> if v_fine_amt>0 then
+    -> insert into fine(roll,Date,Amount)
+    -> values (p_rollno,CURDATE(),v_fine_amt);
+    -> end if;
+    -> 
+    -> select 'Book returned successfully' as message,
+    -> v_days as days_held,
+    -> v_fine_amt as fine_amount;
+    -> 
+    -> else 
+    -> select 'Book has already been returned.' as message;
+    -> end if;
+    -> end;
+    -> //
+Query OK, 0 rows affected (0.18 sec)
+
+mysql> INSERT INTO borrower (roll, Name, DateofIssue, NameofBook, Status) VALUES
+    -> (101, 'Alice',  '2025-07-14', 'Database', 'I'),  
+    -> (102, 'Bob',    '2025-07-04', 'Networking',      'I'),
+    -> (103, 'Charlie','2025-06-19', 'Java',            'I'), 
+    -> (104, 'David',  '2025-07-19', 'Python', 'I'),  
+    -> (105, 'Eve',    '2025-06-14', 'C++', 'I'), 
+    -> (106, 'Frank',  '2025-06-29', 'MachineLearning', 'R');  
+Query OK, 6 rows affected (0.14 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+
+mysql> INSERT INTO fine (roll, Date, Amount) VALUES
+    -> (102, '2025-07-24', 25.00),
+    -> (103, '2025-07-24', 325.00),
+    -> (105, '2025-07-24', 575.00),
+    -> (106, '2025-07-23', 50.00);  
+Query OK, 4 rows affected (0.10 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> select * from borrower;
++------+---------+-------------+-----------------+--------+
+| roll | Name    | DateofIssue | NameofBook      | Status |
++------+---------+-------------+-----------------+--------+
+|  101 | Alice   | 2025-07-14  | Database        | I      |
+|  102 | Bob     | 2025-07-04  | Networking      | I      |
+|  103 | Charlie | 2025-06-19  | Java            | I      |
+|  104 | David   | 2025-07-19  | Python          | I      |
+|  105 | Eve     | 2025-06-14  | C++             | I      |
+|  106 | Frank   | 2025-06-29  | MachineLearning | R      |
++------+---------+-------------+-----------------+--------+
+6 rows in set (0.00 sec)
+
+mysql> select * from fines;
+ERROR 1146 (42S02): Table 'assg4.fines' doesn't exist
+mysql> select * from fine;
++------+------------+--------+
+| roll | Date       | Amount |
++------+------------+--------+
+|  102 | 2025-07-24 |  25.00 |
+|  103 | 2025-07-24 | 325.00 |
+|  105 | 2025-07-24 | 575.00 |
+|  106 | 2025-07-23 |  50.00 |
++------+------------+--------+
+4 rows in set (0.00 sec)
+
+mysql> call ReturnBook(103,'Java');
++----------------------------+-----------+-------------+
+| message                    | days_held | fine_amount |
++----------------------------+-----------+-------------+
+| Book returned successfully |        35 |         275 |
++----------------------------+-----------+-------------+
+1 row in set (0.20 sec)
+
+Query OK, 0 rows affected (0.20 sec)
+
+mysql> call ReturnBook(101,'Database');
++----------------------------+-----------+-------------+
+| message                    | days_held | fine_amount |
++----------------------------+-----------+-------------+
+| Book returned successfully |        10 |           0 |
++----------------------------+-----------+-------------+
+1 row in set (0.19 sec)
+
+Query OK, 0 rows affected (0.19 sec)
+
+mysql> call ReturnBook(105,'C++');
++----------------------------+-----------+-------------+
+| message                    | days_held | fine_amount |
++----------------------------+-----------+-------------+
+| Book returned successfully |        40 |         525 |
++----------------------------+-----------+-------------+
+1 row in set (0.15 sec)
+
+Query OK, 0 rows affected (0.15 sec)
+
+mysql> notee;
+
+mysql> delimiter ;
+mysql> notee;
+
+
+
+
+
+mysql> create table areas(
+    -> radius int primary key,
+    -> area double);
+Query OK, 0 rows affected (0.53 sec)
+
+mysql> delimiter //
+mysql> create procedure calculate()
+    -> begin
+    -> declare r int default 5;
+    -> declare area_val double;
+    -> 
+    -> while r<=9 do
+    -> set area_val= 3.14*r*r;
+    -> 
+    -> insert into areas(radius,area) values(r,area_val);
+    -> 
+    -> set r=r+1;
+    -> end while;
+    -> end;
+    -> //
+Query OK, 0 rows affected (0.12 sec)
+
+mysql> call calculate();
+Query OK, 1 row affected (0.39 sec)
+
+mysql> select * from areas;
++--------+--------+
+| radius | area   |
++--------+--------+
+|      5 |   78.5 |
+|      6 | 113.04 |
+|      7 | 153.86 |
+|      8 | 200.96 |
+|      9 | 254.34 |
++--------+--------+
+5 rows in set (0.00 sec)
+
+mysql> notee;
+Outfile disabled.
+mysql> 

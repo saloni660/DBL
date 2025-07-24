@@ -1,0 +1,285 @@
+mysql> select * from employee;
++-----+--------+---------------+------------+
+| eid | name   | street        | city       |
++-----+--------+---------------+------------+
+|   1 | Amit   | MG Road       | Mumbai     |
+|   2 | Priya  | Brigade Road  | Bangalore  |
+|   3 | Raj    | Park Street   | Kolkata    |
+|   4 | Anita  | Anna Salai    | Chennai    |
+|   5 | Vijay  | Banjara Hills | Hyderabad  |
+|   6 | Sneha  | Laxmi Road    | Pune       |
+|   7 | Ravi   | Sector 17     | Chandigarh |
+|   8 | Pooja  | Ashok Nagar   | Delhi      |
+|   9 | Karan  | Civil Lines   | Lucknow    |
+|  10 | Meena  | Harmu Road    | Ranchi     |
+|  11 | Arjun  | Mali Colony   | Jaipur     |
+|  12 | Neha   | VIP Road      | Raipur     |
+|  13 | Rakesh | Kankarbagh    | Patna      |
+|  14 | Divya  | Palasia       | Indore     |
+|  15 | Manish | Salt Lake     | Kolkata    |
++-----+--------+---------------+------------+
+15 rows in set (0.00 sec)
+
+mysql> select * from company;
++---------------------+-----------+
+| company_name        | city      |
++---------------------+-----------+
+| Adani Group         | Ahmedabad |
+| Bharti Airtel       | Delhi     |
+| HCL Technologies    | Noida     |
+| Indian Oil          | Delhi     |
+| Infosys             | Bangalore |
+| L&T Infotech        | Chennai   |
+| Reliance Industries | Mumbai    |
+| Tata Motors         | Mumbai    |
+| Tech Mahindra       | Pune      |
+| Wipro               | Bangalore |
++---------------------+-----------+
+10 rows in set (0.00 sec)
+
+mysql> select eid,name from employee;
++-----+--------+
+| eid | name   |
++-----+--------+
+|   1 | Amit   |
+|   2 | Priya  |
+|   3 | Raj    |
+|   4 | Anita  |
+|   5 | Vijay  |
+|   6 | Sneha  |
+|   7 | Ravi   |
+|   8 | Pooja  |
+|   9 | Karan  |
+|  10 | Meena  |
+|  11 | Arjun  |
+|  12 | Neha   |
+|  13 | Rakesh |
+|  14 | Divya  |
+|  15 | Manish |
++-----+--------+
+15 rows in set (0.00 sec)
+
+mysql> SELECT e.name
+    -> FROM employee e, manages m
+    -> WHERE e.eid = m.eid;
++--------+
+| name   |
++--------+
+| Amit   |
+| Raj    |
+| Vijay  |
+| Ravi   |
+| Karan  |
+| Meena  |
+| Arjun  |
+| Rakesh |
+| Manish |
++--------+
+9 rows in set (0.00 sec)
+
+mysql> notee
+mysql> SELECT DISTINCT city
+    -> FROM company;
++-----------+
+| city      |
++-----------+
+| Ahmedabad |
+| Delhi     |
+| Noida     |
+| Bangalore |
+| Chennai   |
+| Mumbai    |
+| Pune      |
++-----------+
+7 rows in set (0.00 sec)
+
+mysql> UPDATE employee
+    -> SET city = 'Delhi'
+    -> WHERE eid = 5;
+Query OK, 1 row affected (0.14 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update employee set city='mumbai',street='ABC' where eid=6;
+Query OK, 1 row affected (0.10 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from employee;
++-----+--------+---------------+------------+
+| eid | name   | street        | city       |
++-----+--------+---------------+------------+
+|   1 | Amit   | MG Road       | Mumbai     |
+|   2 | Priya  | Brigade Road  | Bangalore  |
+|   3 | Raj    | Park Street   | Kolkata    |
+|   4 | Anita  | Anna Salai    | Chennai    |
+|   5 | Vijay  | Banjara Hills | Delhi      |
+|   6 | Sneha  | ABC           | mumbai     |
+|   7 | Ravi   | Sector 17     | Chandigarh |
+|   8 | Pooja  | Ashok Nagar   | Delhi      |
+|   9 | Karan  | Civil Lines   | Lucknow    |
+|  10 | Meena  | Harmu Road    | Ranchi     |
+|  11 | Arjun  | Mali Colony   | Jaipur     |
+|  12 | Neha   | VIP Road      | Raipur     |
+|  13 | Rakesh | Kankarbagh    | Patna      |
+|  14 | Divya  | Palasia       | Indore     |
+|  15 | Manish | Salt Lake     | Kolkata    |
++-----+--------+---------------+------------+
+15 rows in set (0.00 sec)
+
+mysql> notee;
+mysql> update works
+    -> set salary=salary+1000
+    -> where company_name='Infosys';
+Query OK, 2 rows affected (0.12 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+mysql> select * from works;
++-----+---------------------+----------+
+| eid | company_name        | salary   |
++-----+---------------------+----------+
+|   1 | Tata Motors         | 45000.00 |
+|   2 | Infosys             | 53000.00 |
+|   3 | Wipro               | 48000.00 |
+|   4 | Reliance Industries | 55000.00 |
+|   5 | HCL Technologies    | 47000.00 |
+|   6 | Tech Mahindra       | 50000.00 |
+|   7 | Bharti Airtel       | 53000.00 |
+|   8 | L&T Infotech        | 49000.00 |
+|   9 | Adani Group         | 51000.00 |
+|  10 | Indian Oil          | 52000.00 |
+|  11 | Infosys             | 61000.00 |
+|  12 | Wipro               | 62000.00 |
+|  13 | Tata Motors         | 58000.00 |
+|  14 | Reliance Industries | 61000.00 |
+|  15 | HCL Technologies    | 59000.00 |
++-----+---------------------+----------+
+15 rows in set (0.01 sec)
+
+mysql> delete from works
+    -> ;
+Query OK, 15 rows affected (0.15 sec)
+
+mysql> select * from works;
+Empty set (0.00 sec)
+
+mysql> notee;
+mysql> select company_name from company where city like 'M%';
++---------------------+
+| company_name        |
++---------------------+
+| Reliance Industries |
+| Tata Motors         |
++---------------------+
+2 rows in set (0.00 sec)
+
+mysql> notee;
+mysql> select avg(salary) as avg_salary from works whwere company_name='Infosys';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'company_name='Infosys'' at line 1
+mysql> select avg(salary) as avg_salary from works where company_name='Infosys';
++------------+
+| avg_salary |
++------------+
+|       NULL |
++------------+
+1 row in set (0.00 sec)
+
+mysql> CREATE TABLE employee_company (
+    ->     eid INT PRIMARY KEY,
+    ->     company_name VARCHAR(100),
+    ->     salary DECIMAL(10,2)
+    -> );
+Query OK, 0 rows affected (1.40 sec)
+
+mysql> INSERT INTO employee_company (eid, company_name, salary) VALUES
+    -> (1, 'Tata Motors', 45000.00),
+    -> (2, 'Infosys', 53000.00),
+    -> (3, 'Wipro', 48000.00),
+    -> (4, 'Reliance Industries', 55000.00),
+    -> (5, 'HCL Technologies', 47000.00),
+    -> (6, 'Tech Mahindra', 50000.00),
+    -> (7, 'Bharti Airtel', 53000.00),
+    -> (8, 'L&T Infotech', 49000.00),
+    -> (9, 'Adani Group', 51000.00),
+    -> (10, 'Indian Oil', 52000.00),
+    -> (11, 'Infosys', 61000.00),
+    -> (12, 'Wipro', 62000.00),
+    -> (13, 'Tata Motors', 58000.00),
+    -> (14, 'Reliance Industries', 61000.00),
+    -> (15, 'HCL Technologies', 59000.00);
+Query OK, 15 rows affected (0.10 sec)
+Records: 15  Duplicates: 0  Warnings: 0
+
+mysql> select avg(salary) as avg_salary from works where company_name='Infosys';
++------------+
+| avg_salary |
++------------+
+|       NULL |
++------------+
+1 row in set (0.00 sec)
+
+mysql> notee
+mysql> SELECT AVG(salary) AS avg_salary FROM employee_company;
++--------------+
+| avg_salary   |
++--------------+
+| 53600.000000 |
++--------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT COUNT(*) AS total_employees
+    -> FROM employee_company
+    -> WHERE company_name = 'Infosys';
++-----------------+
+| total_employees |
++-----------------+
+|               2 |
++-----------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT 
+    ->     MAX(salary) AS max_salary, 
+    ->     MIN(salary) AS min_salary
+    -> FROM employee_company
+    -> WHERE company_name = 'Infosys';
++------------+------------+
+| max_salary | min_salary |
++------------+------------+
+|   61000.00 |   53000.00 |
++------------+------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT 
+    ->     SUM(salary) AS total_salary
+    -> FROM employee_company
+    -> WHERE company_name = 'Infosys';
++--------------+
+| total_salary |
++--------------+
+|    114000.00 |
++--------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT *
+    -> FROM company
+    -> ORDER BY company_name ASC, city DESC;
++---------------------+-----------+
+| company_name        | city      |
++---------------------+-----------+
+| Adani Group         | Ahmedabad |
+| Bharti Airtel       | Delhi     |
+| HCL Technologies    | Noida     |
+| Indian Oil          | Delhi     |
+| Infosys             | Bangalore |
+| L&T Infotech        | Chennai   |
+| Reliance Industries | Mumbai    |
+| Tata Motors         | Mumbai    |
+| Tech Mahindra       | Pune      |
+| Wipro               | Bangalore |
++---------------------+-----------+
+10 rows in set (0.00 sec)
+
+mysql> select name from employee where eid in (select eid from works where company name='Infosys') union all select name from employee where eid in (select eid from works where company name='Tata Motors');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'name='Infosys') union all select name from employee where eid in (select eid fro' at line 1
+mysql> select name from employee where eid in (select eid from works where company_name='Infosys') union all select name from employee where eid in (select eid from works where company_name='Tata Motors');
+Empty set (0.01 sec)
+
+mysql> notee;

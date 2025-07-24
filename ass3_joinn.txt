@@ -1,0 +1,423 @@
+mysql> show databses;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'databses' at line 1
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| 7316banking        |
+| ass2               |
+| banking            |
+| information_schema |
+| movie              |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+8 rows in set (0.00 sec)
+
+mysql> show tables;
++------------------+
+| Tables_in_ass2   |
++------------------+
+| company          |
+| employee         |
+| employee_details |
+| info_sal_above   |
+| manages          |
+| works            |
++------------------+
+6 rows in set (0.00 sec)
+
+mysql> notee;
+mysql> select * from company;
++---------------------+-----------+
+| company_name        | city      |
++---------------------+-----------+
+| Adani Group         | Ahmedabad |
+| Bharti Airtel       | Delhi     |
+| HCL Technologies    | Noida     |
+| Indian Oil          | Delhi     |
+| Infosys             | Bangalore |
+| L&T Infotech        | Chennai   |
+| Reliance Industries | Mumbai    |
+| Tata Motors         | Mumbai    |
+| Tech Mahindra       | Pune      |
+| Wipro               | Bangalore |
++---------------------+-----------+
+10 rows in set (0.00 sec)
+
+mysql> select * from employee;
++-----+--------+---------------+------------+
+| eid | name   | street        | city       |
++-----+--------+---------------+------------+
+|   1 | Amit   | MG Road       | Mumbai     |
+|   2 | Priya  | Brigade Road  | Bangalore  |
+|   3 | Raj    | Park Street   | Kolkata    |
+|   4 | Anita  | Anna Salai    | Chennai    |
+|   5 | Vijay  | Banjara Hills | Delhi      |
+|   6 | Sneha  | ABC           | mumbai     |
+|   7 | Ravi   | Sector 17     | Chandigarh |
+|   8 | Pooja  | Ashok Nagar   | Delhi      |
+|   9 | Karan  | Civil Lines   | Lucknow    |
+|  10 | Meena  | Harmu Road    | Ranchi     |
+|  11 | Arjun  | Mali Colony   | Jaipur     |
+|  12 | Neha   | VIP Road      | Raipur     |
+|  13 | Rakesh | Kankarbagh    | Patna      |
+|  14 | Divya  | Palasia       | Indore     |
+|  15 | Manish | Salt Lake     | Kolkata    |
++-----+--------+---------------+------------+
+15 rows in set (0.00 sec)
+
+mysql> select * from manages;
++-----+------------------+
+| eid | dept_name        |
++-----+------------------+
+|   1 | HR               |
+|   3 | Finance          |
+|   5 | IT               |
+|   7 | Operations       |
+|   9 | Marketing        |
+|  10 | legal            |
+|  11 | Sales            |
+|  13 | Customer Support |
+|  15 | Logistics        |
++-----+------------------+
+9 rows in set (0.03 sec)
+
+mysql> select * from works;
++-----+---------------------+----------+
+| eid | company_name        | salary   |
++-----+---------------------+----------+
+|   1 | Tata Motors         | 45000.00 |
+|   2 | Infosys             | 53000.00 |
+|   3 | Wipro               | 48000.00 |
+|   4 | Reliance Industries | 55000.00 |
+|   5 | HCL Technologies    | 47000.00 |
+|   6 | Tech Mahindra       | 50000.00 |
+|   7 | Bharti Airtel       | 53000.00 |
+|   8 | L&T Infotech        | 49000.00 |
+|   9 | Adani Group         | 51000.00 |
+|  10 | Indian Oil          | 52000.00 |
+|  11 | Infosys             | 61000.00 |
+|  12 | Wipro               | 62000.00 |
+|  13 | Tata Motors         | 58000.00 |
+|  14 | Reliance Industries | 61000.00 |
+|  15 | HCL Technologies    | 59000.00 |
++-----+---------------------+----------+
+15 rows in set (0.00 sec)
+
+mysql> select * from employee where eid in (select eid from works where company_name in ('Wipro','Infosys'));
++-----+-------+--------------+-----------+
+| eid | name  | street       | city      |
++-----+-------+--------------+-----------+
+|   2 | Priya | Brigade Road | Bangalore |
+|   3 | Raj   | Park Street  | Kolkata   |
+|  11 | Arjun | Mali Colony  | Jaipur    |
+|  12 | Neha  | VIP Road     | Raipur    |
++-----+-------+--------------+-----------+
+4 rows in set (0.01 sec)
+
+mysql> select * from employee where eid in (select eid from manages));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 1
+mysql> select * from employee where eid in (select eid from manages);
++-----+--------+---------------+------------+
+| eid | name   | street        | city       |
++-----+--------+---------------+------------+
+|   1 | Amit   | MG Road       | Mumbai     |
+|   3 | Raj    | Park Street   | Kolkata    |
+|   5 | Vijay  | Banjara Hills | Delhi      |
+|   7 | Ravi   | Sector 17     | Chandigarh |
+|   9 | Karan  | Civil Lines   | Lucknow    |
+|  10 | Meena  | Harmu Road    | Ranchi     |
+|  11 | Arjun  | Mali Colony   | Jaipur     |
+|  13 | Rakesh | Kankarbagh    | Patna      |
+|  15 | Manish | Salt Lake     | Kolkata    |
++-----+--------+---------------+------------+
+9 rows in set (0.00 sec)
+
+mysql> select company_name,(select count(eid) from works w2 where w2.company_name=c.company_name) as emp_count from company c;
++---------------------+-----------+
+| company_name        | emp_count |
++---------------------+-----------+
+| Adani Group         |         1 |
+| Bharti Airtel       |         1 |
+| HCL Technologies    |         2 |
+| Indian Oil          |         1 |
+| Infosys             |         2 |
+| L&T Infotech        |         1 |
+| Reliance Industries |         2 |
+| Tata Motors         |         2 |
+| Tech Mahindra       |         1 |
+| Wipro               |         2 |
++---------------------+-----------+
+10 rows in set (0.00 sec)
+
+mysql> SELECT * 
+    -> FROM works 
+    -> WHERE salary > (
+    ->     SELECT AVG(salary) 
+    ->     FROM works 
+    ->     WHERE company_name = 'Infosys');
++-----+---------------------+----------+
+| eid | company_name        | salary   |
++-----+---------------------+----------+
+|  11 | Infosys             | 61000.00 |
+|  12 | Wipro               | 62000.00 |
+|  13 | Tata Motors         | 58000.00 |
+|  14 | Reliance Industries | 61000.00 |
+|  15 | HCL Technologies    | 59000.00 |
++-----+---------------------+----------+
+5 rows in set (0.00 sec)
+
+mysql> select * from employee where eid in (select avg(salary) from works where company
+    -> _name='Infosys');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '_name='Infosys')' at line 2
+mysql> select * from employee where eid in (select avg(salary) from works where company_name='Infosys');
+Empty set (0.00 sec)
+
+
+
+mysql> select * from employee
+    -> where eid in (select eid from works where salary >
+    -> (select avg(salary) from works where company_name='Infosys'));
++-----+--------+-------------+---------+
+| eid | name   | street      | city    |
++-----+--------+-------------+---------+
+|  11 | Arjun  | Mali Colony | Jaipur  |
+|  12 | Neha   | VIP Road    | Raipur  |
+|  13 | Rakesh | Kankarbagh  | Patna   |
+|  14 | Divya  | Palasia     | Indore  |
+|  15 | Manish | Salt Lake   | Kolkata |
++-----+--------+-------------+---------+
+5 rows in set (0.00 sec)
+
+mysql> select name from employee where eid in (
+    -> select eid from manages where eid in (
+    -> select eid from works where company_name in (
+    -> select comapny_name from company where city='Mumbai')));
+ERROR 1054 (42S22): Unknown column 'comapny_name' in 'field list'
+mysql> select name from employee where eid in ( select eid from manages where eid in ( select eid from works where company_name in ( select company_name from company where city='Mumbai')));
++--------+
+| name   |
++--------+
+| Amit   |
+| Rakesh |
++--------+
+2 rows in set (0.01 sec)
+
+mysql> select * from employee natural join manages;
++-----+--------+---------------+------------+------------------+
+| eid | name   | street        | city       | dept_name        |
++-----+--------+---------------+------------+------------------+
+|   1 | Amit   | MG Road       | Mumbai     | HR               |
+|   3 | Raj    | Park Street   | Kolkata    | Finance          |
+|   5 | Vijay  | Banjara Hills | Delhi      | IT               |
+|   7 | Ravi   | Sector 17     | Chandigarh | Operations       |
+|   9 | Karan  | Civil Lines   | Lucknow    | Marketing        |
+|  10 | Meena  | Harmu Road    | Ranchi     | legal            |
+|  11 | Arjun  | Mali Colony   | Jaipur     | Sales            |
+|  13 | Rakesh | Kankarbagh    | Patna      | Customer Support |
+|  15 | Manish | Salt Lake     | Kolkata    | Logistics        |
++-----+--------+---------------+------------+------------------+
+9 rows in set (0.00 sec)
+
+mysql> select e.eid,e.name,m.dept_name
+    -> from employee e
+    -> cross join (
+    -> select distinct dept_name from manages) m;
++-----+--------+------------------+
+| eid | name   | dept_name        |
++-----+--------+------------------+
+|   1 | Amit   | Logistics        |
+|   1 | Amit   | Customer Support |
+|   1 | Amit   | Sales            |
+|   1 | Amit   | legal            |
+|   1 | Amit   | Marketing        |
+|   1 | Amit   | Operations       |
+|   1 | Amit   | IT               |
+|   1 | Amit   | Finance          |
+|   1 | Amit   | HR               |
+|   4 | Anita  | Logistics        |
+|   4 | Anita  | Customer Support |
+|   4 | Anita  | Sales            |
+|   4 | Anita  | legal            |
+|   4 | Anita  | Marketing        |
+|   4 | Anita  | Operations       |
+|   4 | Anita  | IT               |
+|   4 | Anita  | Finance          |
+|   4 | Anita  | HR               |
+|  11 | Arjun  | Logistics        |
+|  11 | Arjun  | Customer Support |
+|  11 | Arjun  | Sales            |
+|  11 | Arjun  | legal            |
+|  11 | Arjun  | Marketing        |
+|  11 | Arjun  | Operations       |
+|  11 | Arjun  | IT               |
+|  11 | Arjun  | Finance          |
+|  11 | Arjun  | HR               |
+|  14 | Divya  | Logistics        |
+|  14 | Divya  | Customer Support |
+|  14 | Divya  | Sales            |
+|  14 | Divya  | legal            |
+|  14 | Divya  | Marketing        |
+|  14 | Divya  | Operations       |
+|  14 | Divya  | IT               |
+|  14 | Divya  | Finance          |
+|  14 | Divya  | HR               |
+|   9 | Karan  | Logistics        |
+|   9 | Karan  | Customer Support |
+|   9 | Karan  | Sales            |
+|   9 | Karan  | legal            |
+|   9 | Karan  | Marketing        |
+|   9 | Karan  | Operations       |
+|   9 | Karan  | IT               |
+|   9 | Karan  | Finance          |
+|   9 | Karan  | HR               |
+|  15 | Manish | Logistics        |
+|  15 | Manish | Customer Support |
+|  15 | Manish | Sales            |
+|  15 | Manish | legal            |
+|  15 | Manish | Marketing        |
+|  15 | Manish | Operations       |
+|  15 | Manish | IT               |
+|  15 | Manish | Finance          |
+|  15 | Manish | HR               |
+|  10 | Meena  | Logistics        |
+|  10 | Meena  | Customer Support |
+|  10 | Meena  | Sales            |
+|  10 | Meena  | legal            |
+|  10 | Meena  | Marketing        |
+|  10 | Meena  | Operations       |
+|  10 | Meena  | IT               |
+|  10 | Meena  | Finance          |
+|  10 | Meena  | HR               |
+|  12 | Neha   | Logistics        |
+|  12 | Neha   | Customer Support |
+|  12 | Neha   | Sales            |
+|  12 | Neha   | legal            |
+|  12 | Neha   | Marketing        |
+|  12 | Neha   | Operations       |
+|  12 | Neha   | IT               |
+|  12 | Neha   | Finance          |
+|  12 | Neha   | HR               |
+|   8 | Pooja  | Logistics        |
+|   8 | Pooja  | Customer Support |
+|   8 | Pooja  | Sales            |
+|   8 | Pooja  | legal            |
+|   8 | Pooja  | Marketing        |
+|   8 | Pooja  | Operations       |
+|   8 | Pooja  | IT               |
+|   8 | Pooja  | Finance          |
+|   8 | Pooja  | HR               |
+|   2 | Priya  | Logistics        |
+|   2 | Priya  | Customer Support |
+|   2 | Priya  | Sales            |
+|   2 | Priya  | legal            |
+|   2 | Priya  | Marketing        |
+|   2 | Priya  | Operations       |
+|   2 | Priya  | IT               |
+|   2 | Priya  | Finance          |
+|   2 | Priya  | HR               |
+|   3 | Raj    | Logistics        |
+|   3 | Raj    | Customer Support |
+|   3 | Raj    | Sales            |
+|   3 | Raj    | legal            |
+|   3 | Raj    | Marketing        |
+|   3 | Raj    | Operations       |
+|   3 | Raj    | IT               |
+|   3 | Raj    | Finance          |
+|   3 | Raj    | HR               |
+|  13 | Rakesh | Logistics        |
+|  13 | Rakesh | Customer Support |
+|  13 | Rakesh | Sales            |
+|  13 | Rakesh | legal            |
+|  13 | Rakesh | Marketing        |
+|  13 | Rakesh | Operations       |
+|  13 | Rakesh | IT               |
+|  13 | Rakesh | Finance          |
+|  13 | Rakesh | HR               |
+|   7 | Ravi   | Logistics        |
+|   7 | Ravi   | Customer Support |
+|   7 | Ravi   | Sales            |
+|   7 | Ravi   | legal            |
+|   7 | Ravi   | Marketing        |
+|   7 | Ravi   | Operations       |
+|   7 | Ravi   | IT               |
+|   7 | Ravi   | Finance          |
+|   7 | Ravi   | HR               |
+|   6 | Sneha  | Logistics        |
+|   6 | Sneha  | Customer Support |
+|   6 | Sneha  | Sales            |
+|   6 | Sneha  | legal            |
+|   6 | Sneha  | Marketing        |
+|   6 | Sneha  | Operations       |
+|   6 | Sneha  | IT               |
+|   6 | Sneha  | Finance          |
+|   6 | Sneha  | HR               |
+|   5 | Vijay  | Logistics        |
+|   5 | Vijay  | Customer Support |
+|   5 | Vijay  | Sales            |
+|   5 | Vijay  | legal            |
+|   5 | Vijay  | Marketing        |
+|   5 | Vijay  | Operations       |
+|   5 | Vijay  | IT               |
+|   5 | Vijay  | Finance          |
+|   5 | Vijay  | HR               |
++-----+--------+------------------+
+135 rows in set (0.00 sec)
+
+mysql> selectr e.* from employee e left join manages m on e.eid=m.eid where m.eid is null;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'selectr e.* from employee e left join manages m on e.eid=m.eid where m.eid is nu' at line 1
+mysql> select e.* from employee e left join manages m on e.eid=m.eid where m.eid is null;
++-----+-------+--------------+-----------+
+| eid | name  | street       | city      |
++-----+-------+--------------+-----------+
+|   2 | Priya | Brigade Road | Bangalore |
+|   4 | Anita | Anna Salai   | Chennai   |
+|   6 | Sneha | ABC          | mumbai    |
+|   8 | Pooja | Ashok Nagar  | Delhi     |
+|  12 | Neha  | VIP Road     | Raipur    |
+|  14 | Divya | Palasia      | Indore    |
++-----+-------+--------------+-----------+
+6 rows in set (0.00 sec)
+
+mysql> select c.company_name,c.city,e.eid,e.name,e.street,e.city as emp_city,w.salary from employee e 
+    -> right join works w on e.eid=w.eid
+    -> right join company c on w.company_name=c.company_name;
++---------------------+-----------+------+--------+---------------+------------+----------+
+| company_name        | city      | eid  | name   | street        | emp_city   | salary   |
++---------------------+-----------+------+--------+---------------+------------+----------+
+| Adani Group         | Ahmedabad |    9 | Karan  | Civil Lines   | Lucknow    | 51000.00 |
+| Bharti Airtel       | Delhi     |    7 | Ravi   | Sector 17     | Chandigarh | 53000.00 |
+| HCL Technologies    | Noida     |    5 | Vijay  | Banjara Hills | Delhi      | 47000.00 |
+| HCL Technologies    | Noida     |   15 | Manish | Salt Lake     | Kolkata    | 59000.00 |
+| Indian Oil          | Delhi     |   10 | Meena  | Harmu Road    | Ranchi     | 52000.00 |
+| Infosys             | Bangalore |    2 | Priya  | Brigade Road  | Bangalore  | 53000.00 |
+| Infosys             | Bangalore |   11 | Arjun  | Mali Colony   | Jaipur     | 61000.00 |
+| L&T Infotech        | Chennai   |    8 | Pooja  | Ashok Nagar   | Delhi      | 49000.00 |
+| Reliance Industries | Mumbai    |    4 | Anita  | Anna Salai    | Chennai    | 55000.00 |
+| Reliance Industries | Mumbai    |   14 | Divya  | Palasia       | Indore     | 61000.00 |
+| Tata Motors         | Mumbai    |    1 | Amit   | MG Road       | Mumbai     | 45000.00 |
+| Tata Motors         | Mumbai    |   13 | Rakesh | Kankarbagh    | Patna      | 58000.00 |
+| Tech Mahindra       | Pune      |    6 | Sneha  | ABC           | mumbai     | 50000.00 |
+| Wipro               | Bangalore |    3 | Raj    | Park Street   | Kolkata    | 48000.00 |
+| Wipro               | Bangalore |   12 | Neha   | VIP Road      | Raipur     | 62000.00 |
++---------------------+-----------+------+--------+---------------+------------+----------+
+15 rows in set (0.00 sec)
+
+mysql> select * from employee e
+    -> join works w on e.eid=w.eid
+    -> join company c on w.company_name=c.company_name where c.city in ('Mumbai','Delhi');
++-----+--------+------------+------------+-----+---------------------+----------+---------------------+--------+
+| eid | name   | street     | city       | eid | company_name        | salary   | company_name        | city   |
++-----+--------+------------+------------+-----+---------------------+----------+---------------------+--------+
+|   1 | Amit   | MG Road    | Mumbai     |   1 | Tata Motors         | 45000.00 | Tata Motors         | Mumbai |
+|   4 | Anita  | Anna Salai | Chennai    |   4 | Reliance Industries | 55000.00 | Reliance Industries | Mumbai |
+|   7 | Ravi   | Sector 17  | Chandigarh |   7 | Bharti Airtel       | 53000.00 | Bharti Airtel       | Delhi  |
+|  10 | Meena  | Harmu Road | Ranchi     |  10 | Indian Oil          | 52000.00 | Indian Oil          | Delhi  |
+|  13 | Rakesh | Kankarbagh | Patna      |  13 | Tata Motors         | 58000.00 | Tata Motors         | Mumbai |
+|  14 | Divya  | Palasia    | Indore     |  14 | Reliance Industries | 61000.00 | Reliance Industries | Mumbai |
++-----+--------+------------+------------+-----+---------------------+----------+---------------------+--------+
+6 rows in set (0.01 sec)
+
+mysql> notee;
